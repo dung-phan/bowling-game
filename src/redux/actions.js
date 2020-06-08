@@ -17,3 +17,27 @@ export const addNewPlayer = (playerName) => {
     },
   };
 };
+export const saveScore = (playerId, score) => {
+  return {
+    type: SAVE_SCORE,
+    playerId,
+    score,
+  };
+};
+export const nextPlayer = (currentPlayerId) => {
+  return {
+    type: NEXT_PLAYER,
+    currentPlayerId,
+  };
+};
+export const countingWins = (playerIndex) => {
+  return {
+    type: COUNT_WIN,
+    playerIndex,
+  };
+};
+export const resetGame = () => {
+  return {
+    type: RESET_GAME,
+  };
+};

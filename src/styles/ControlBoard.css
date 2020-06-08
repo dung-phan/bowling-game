@@ -1,0 +1,31 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "reset player game";
+}
+h4 {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #a19d9d;
+  margin-bottom: 4px;
+}
+.player {
+  text-align: center;
+}
+.game {
+  text-align: center;
+}
+.cb-header {
+  text-align: center;
+  padding: 1rem 2rem;
+}
+.restart {
+  display: inline;
+  padding: 5px;
+}
+.restart:hover {
+  transform: scale(1.2);
+}
