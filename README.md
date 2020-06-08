@@ -10,15 +10,10 @@ My approach to build the bowling game scoring system, using React and Redux for 
 
 ## Table of contents:
 
-- **[Technologies used](#technologies-used)**
 - **[Features](#features)**
 - **[Instructions](#instructions)**
 - **[File Structure](#file-structure)**
 - **[Improvements](#improvements)**
-
-## Technologies used
-
-#### Click links to view some samples in this project
 
 ## Features
 
@@ -35,10 +30,11 @@ As a player, you can:
 1. Navigate to the [repository](https://github.com/dung-phan/bowling-game)
 2. Clone locally using
    `git@github.com:dung-phan/bowling-game.git`
-3. Install dependencies using `npm install`
-4. Start your server using `npm start`
-5. Navigate to app in [browser](http://localhost:3000)
-6. Enjoy!
+3. cd bowling-game
+4. Install dependencies using `npm install`
+5. Start your server using `npm start`
+6. Navigate to app in [browser](http://localhost:3000)
+7. Enjoy!
 
 ## File Structure
 
@@ -58,5 +54,5 @@ As a player, you can:
 
 ## Improvements
 
-- The app is currently limited to only two users
+- The app is currently limited to only one or two users
 - The app is designed for laptop users only and therefore is not responsive.
