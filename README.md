@@ -1,6 +1,8 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7a2b3940-04de-4a62-9531-b1442be13387/deploy-status)]
+
 # BOWLING SCORING SYSTEM
 
-## [ Check out the deployed version on Netlify! ]()
+## [ Check out the deployed version on Netlify! ](<(https://app.netlify.com/sites/bowling-score/deploys)>)
 
 ## What this project is about
 
@@ -22,11 +24,11 @@ My approach to build the bowling game scoring system, using React and Redux for 
 
 As a player, you can:
 
-● Add two players with names
-● Manually add scores for each player
-● Tracks the number of games won for each player
-● Reset all game stats and start over
-● Correctly calculates bowling scores
+- Add two players with names
+- Manually add scores for each player
+- Tracks the number of games won for each player
+- Reset all game stats and start over
+- Correctly calculates bowling scores
 
 ## Instructions
 
