@@ -38,17 +38,14 @@
   justify-content: center;
   font-weight: bold;
   background: #1a1d21;
+  border-top: 1px solid rgba(223, 223, 223, 0.808);
+  border-right: 1px solid rgba(223, 223, 223, 0.808);
 }
-.fram-name {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  background: #1a1d21;
+.frame-name {
+  border: 1px solid rgba(223, 223, 223, 0.808);
 }
 .player-name {
-  transform: translateY(50%);
+  transform: translateY(30%);
   text-transform: uppercase;
   padding: 1rem;
   margin: 3px;
@@ -63,7 +60,7 @@
   border-left: 1px solid rgba(223, 223, 223, 0.808);
 }
 
-.score-updating {
+.score-update {
   flex: 1;
   display: flex;
   align-items: center;
@@ -76,7 +73,7 @@
   border-right: 1px solid rgba(223, 223, 223, 0.808);
 }
 
-.frame:last-child .score-updating {
+.frame:last-child .score-update {
   border-right: 1px solid rgba(223, 223, 223, 0.808);
 }
 
