@@ -119,25 +119,31 @@ class ScoreBoard extends Component {
   };
   checkWinner = () => {
     const finalScores = this.props.players.map((player) => {
-      if (player.rolls.length > 0 && player.rolls[9].totalScore !== undefined) {
+      if (player.rolls[9].totalScore) {
         return player.rolls[9].totalScore;
-      } else {
-        alert("Game not finished yet");
-        return false;
       }
     });
+
     if (finalScores[0] > finalScores[1]) {
       return this.props.countingWins(this.props.players[0].id);
-    } else {
+    } else if (finalScores[0] < finalScores[1]) {
       return this.props.countingWins(this.props.players[1].id);
+    } else if (finalScores[0] === finalScores[1]) {
+      alert("Opps it is a draw");
     }
   };
   //reset the game
   reset = () => {
     this.props.resetGame();
+    this.rolls = { player1: [], player2: [] };
   };
   render() {
     const { players } = this.props;
+    const finalScores = this.props.players.map((player) => {
+      if (player.rolls[9] && player.rolls[9].totalScore) {
+        return player.rolls[9].totalScore;
+      }
+    });
     return (
       <div className="sb-wrapper">
         <ControlBoard
@@ -195,11 +201,11 @@ class ScoreBoard extends Component {
               ))
             : null}
         </div>
-        {this.props.players.length !== 2 ? null : (
+        {finalScores[1] !== undefined ? (
           <button className="button" onClick={this.checkWinner}>
             Check winner
           </button>
-        )}
+        ) : null}
         {this.props.players.length === 2 ? null : <PlayerForm />}
       </div>
     );
