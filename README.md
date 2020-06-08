@@ -2,7 +2,7 @@
 
 # BOWLING SCORING SYSTEM
 
-## [ Check out the deployed version on Netlify! ](https://app.netlify.com/sites/bowling-score/deploys)
+## [ Check out the deployed version on Netlify! ](https://bowling-score.netlify.app)
 
 ## What this project is about
 
