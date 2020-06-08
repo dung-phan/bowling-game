@@ -1,8 +1,8 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7a2b3940-04de-4a62-9531-b1442be13387/deploy-status)]
+![Netlify Status](https://api.netlify.com/api/v1/badges/7a2b3940-04de-4a62-9531-b1442be13387/deploy-status)
 
 # BOWLING SCORING SYSTEM
 
-## [ Check out the deployed version on Netlify! ](<(https://app.netlify.com/sites/bowling-score/deploys)>)
+## [ Check out the deployed version on Netlify! ](https://app.netlify.com/sites/bowling-score/deploys)
 
 ## What this project is about
 
