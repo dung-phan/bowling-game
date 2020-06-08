@@ -1,7 +1,8 @@
 import React from "react";
-
-function App() {
-  return <div className="App"></div>;
-}
-
+import ScoreBoard from "./ScoreBoard";
+const App = () => (
+  <div className="App">
+    <ScoreBoard />
+  </div>
+);
 export default App;

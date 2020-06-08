@@ -1,0 +1,24 @@
+.pf-input {
+  background-color: #1a1d21;
+  margin: 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  width: 240px;
+  position: relative;
+}
+.pf-form {
+  width: 240px;
+  padding: 13px;
+  border: none;
+  background-color: transparent;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  cursor: text;
+  color: white;
+}
+.pf-form:hover {
+  outline: none;
+}
+.pf-footer {
+  position: absolute;
+  bottom: 0;
+}
