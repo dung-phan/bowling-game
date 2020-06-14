@@ -114,13 +114,14 @@ class ScoreBoard extends Component {
       }
       return null;
     });
-
-    if (finalScores[0] > finalScores[1]) {
-      return this.props.countingWins(this.props.players[0].id);
-    } else if (finalScores[0] < finalScores[1]) {
-      return this.props.countingWins(this.props.players[1].id);
-    } else if (finalScores[0] === finalScores[1]) {
-      alert("Opps it is a draw");
+    const winningScore = Math.max.apply(Math, finalScores);
+    if (winningScore) {
+      const winner = this.props.players.filter((player) => {
+        return player.rolls[9].totalScore === winningScore;
+      });
+      return this.props.countingWins(winner[0].id);
+      // } else  {
+      //   alert("Opps it is a draw");
     }
   };
   //reset the game
@@ -128,7 +129,7 @@ class ScoreBoard extends Component {
     this.props.resetGame();
   };
   render() {
-    const { players } = this.props;
+    const { players, currentPlayerIndex } = this.props;
     const finalScores = this.props.players.map((player) => {
       if (player.rolls[9] && player.rolls[9].totalScore) {
         return player.rolls[9].totalScore;
@@ -140,13 +141,9 @@ class ScoreBoard extends Component {
         <ControlBoard
           handleRoll={this.roll}
           handleReset={this.reset}
-          pinsRemaining={
-            this.props.players.length > 0 ? this.pinsRemaining() : null
-          }
+          pinsRemaining={players.length > 0 ? this.pinsRemaining() : null}
           currentPlayer={
-            this.props.players.length > 0
-              ? this.props.players[this.props.currentPlayerIndex].playerName
-              : null
+            players.length > 0 ? players[currentPlayerIndex].playerName : null
           }
         />
         <div className="controls">
@@ -158,7 +155,7 @@ class ScoreBoard extends Component {
               ))
             : null}
         </div>
-        <div>
+        <div className="player-board">
           {players.length > 0
             ? players.map((player) => (
                 <div className="score-board" key={player.id}>
@@ -166,6 +163,7 @@ class ScoreBoard extends Component {
                     <div className="player-name">{player.playerName}</div>
                     <div className="player-name">{player.winningTimes}</div>
                   </div>
+
                   {Array.from(Array(10).keys()).map((i) => (
                     <Frame
                       key={i}
@@ -196,12 +194,12 @@ class ScoreBoard extends Component {
               ))
             : null}
         </div>
-        {finalScores[1] !== undefined ? (
-          <button className="button" onClick={this.checkWinner}>
-            Check winner
-          </button>
-        ) : null}
-        {this.props.players.length === 2 ? null : <PlayerForm />}
+        {/* {finalScores[1] !== undefined ? ( */}
+        <button className="button" onClick={this.checkWinner}>
+          Check winner
+        </button>
+        {/* ) : null} */}
+        {this.props.rolls[0].length > 0 ? null : <PlayerForm />}
       </div>
     );
   }

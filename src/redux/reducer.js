@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         players: state.players.map((player) => {
-          if (player.id === action.playerIndex) {
+          if (player.id === action.playerId) {
             return {
               ...player,
               winningTimes: player.winningTimes + 1,

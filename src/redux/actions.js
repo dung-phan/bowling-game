@@ -30,10 +30,10 @@ export const nextPlayer = (currentPlayerId) => {
     currentPlayerId,
   };
 };
-export const countingWins = (playerIndex) => {
+export const countingWins = (playerId) => {
   return {
     type: COUNT_WIN,
-    playerIndex,
+    playerId,
   };
 };
 export const resetGame = () => {
