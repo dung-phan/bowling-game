@@ -11,12 +11,6 @@ import Frame from "./Frame";
 import PlayerForm from "./PlayerForm";
 import "../styles/ScoreBoard.css";
 class ScoreBoard extends Component {
-  constructor() {
-    super();
-    this.rolls = { player1: [], player2: [] };
-    this.currentRollIndex = 0;
-    this.frames = Array.from(Array(10).keys());
-  }
   //check the number of remaining pins that should be knocked down in a frame
   pinsRemaining = () => {
     const allScores = this.score();
@@ -30,9 +24,7 @@ class ScoreBoard extends Component {
   };
   //count the number of pins knocked down
   roll = (pins) => {
-    const currentPlayerRolls = Object.values(this.rolls)[
-      this.props.currentPlayerIndex
-    ];
+    const currentPlayerRolls = this.props.rolls[this.props.currentPlayerIndex];
     let currentRollIndex = this.props.players[this.props.currentPlayerIndex]
       .currentRollIndex;
     currentPlayerRolls[currentRollIndex++] = pins;
@@ -50,9 +42,7 @@ class ScoreBoard extends Component {
     let allScores = [];
     let score = 0;
     let frameIndex = 0;
-    const currentPlayerRolls = Object.values(this.rolls)[
-      this.props.currentPlayerIndex
-    ];
+    const currentPlayerRolls = this.props.rolls[this.props.currentPlayerIndex];
     const firstRoll = () => currentPlayerRolls[frameIndex];
     const secondRoll = () => currentPlayerRolls[frameIndex + 1];
     const thirdRoll = () => currentPlayerRolls[frameIndex + 2];
@@ -122,6 +112,7 @@ class ScoreBoard extends Component {
       if (player.rolls[9].totalScore) {
         return player.rolls[9].totalScore;
       }
+      return null;
     });
 
     if (finalScores[0] > finalScores[1]) {
@@ -135,7 +126,6 @@ class ScoreBoard extends Component {
   //reset the game
   reset = () => {
     this.props.resetGame();
-    this.rolls = { player1: [], player2: [] };
   };
   render() {
     const { players } = this.props;
@@ -143,13 +133,16 @@ class ScoreBoard extends Component {
       if (player.rolls[9] && player.rolls[9].totalScore) {
         return player.rolls[9].totalScore;
       }
+      return null;
     });
     return (
       <div className="sb-wrapper">
         <ControlBoard
           handleRoll={this.roll}
           handleReset={this.reset}
-          pinsRemaining={this.pinsRemaining()}
+          pinsRemaining={
+            this.props.players.length > 0 ? this.pinsRemaining() : null
+          }
           currentPlayer={
             this.props.players.length > 0
               ? this.props.players[this.props.currentPlayerIndex].playerName
@@ -157,11 +150,13 @@ class ScoreBoard extends Component {
           }
         />
         <div className="controls">
-          {[...Array(this.pinsRemaining() + 1)].map((frameData, i) => (
-            <button key={i} className="roll" onClick={() => this.roll(i)}>
-              {i}
-            </button>
-          ))}
+          {this.props.rolls.length > 0
+            ? [...Array(this.pinsRemaining() + 1)].map((frameData, i) => (
+                <button key={i} className="roll" onClick={() => this.roll(i)}>
+                  {i}
+                </button>
+              ))
+            : null}
         </div>
         <div>
           {players.length > 0
@@ -171,7 +166,7 @@ class ScoreBoard extends Component {
                     <div className="player-name">{player.playerName}</div>
                     <div className="player-name">{player.winningTimes}</div>
                   </div>
-                  {this.frames.map((i) => (
+                  {Array.from(Array(10).keys()).map((i) => (
                     <Frame
                       key={i}
                       frameNumber={i + 1}
@@ -215,6 +210,7 @@ const mapStateToProps = (state) => {
   return {
     players: state.players,
     currentPlayerIndex: state.currentPlayerIndex,
+    rolls: state.rolls,
   };
 };
 export default connect(mapStateToProps, {

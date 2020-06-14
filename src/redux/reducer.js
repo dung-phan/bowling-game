@@ -9,12 +9,17 @@ import {
 const initialState = {
   players: [],
   currentPlayerIndex: 0,
+  rolls: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_PLAYER:
-      return { ...state, players: [...state.players, action.player] };
+      return {
+        ...state,
+        players: [...state.players, action.player],
+        rolls: [...state.rolls, []],
+      };
     case SAVE_SCORE:
       return {
         ...state,

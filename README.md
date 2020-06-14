@@ -34,7 +34,7 @@ As a player, you can:
 4. Install dependencies using `npm install`
 5. Start your server using `npm start`
 6. Navigate to app in [browser](http://localhost:3000)
-7. Enjoy!
+7. Players can enter their names in
 
 ## File Structure
 
