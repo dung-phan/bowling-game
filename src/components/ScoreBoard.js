@@ -194,12 +194,14 @@ class ScoreBoard extends Component {
               ))
             : null}
         </div>
-        {/* {finalScores[1] !== undefined ? ( */}
-        <button className="button" onClick={this.checkWinner}>
-          Check winner
-        </button>
-        {/* ) : null} */}
-        {this.props.rolls[0].length > 0 ? null : <PlayerForm />}
+        {finalScores[players.length - 1] ? (
+          <button className="button" onClick={this.checkWinner}>
+            Check winner
+          </button>
+        ) : null}
+        {this.props.rolls[0] && this.props.rolls[0].length > 0 ? null : (
+          <PlayerForm />
+        )}
       </div>
     );
   }

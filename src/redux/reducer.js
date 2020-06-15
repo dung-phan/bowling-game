@@ -6,7 +6,7 @@ import {
   COUNT_WIN,
 } from "./actions";
 
-const initialState = {
+export const initialState = {
   players: [],
   currentPlayerIndex: 0,
   rolls: [],
