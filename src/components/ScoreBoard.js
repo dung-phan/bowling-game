@@ -9,128 +9,19 @@ import {
 import ControlBoard from "./ControlBoard";
 import Frame from "./Frame";
 import PlayerForm from "./PlayerForm";
+import { pinsRemaining, score, checkWinner, roll } from "./Helpers";
 import "../styles/ScoreBoard.css";
 class ScoreBoard extends Component {
-  //check the number of remaining pins that should be knocked down in a frame
-  pinsRemaining = () => {
-    const allScores = this.score();
-    let pinsRemaining = 10;
-    allScores.forEach((frame) => {
-      if (frame.pinsRemaining !== null && !isNaN(frame.pinsRemaining)) {
-        pinsRemaining = frame.pinsRemaining;
-      }
-    });
-    return pinsRemaining;
-  };
-  //count the number of pins knocked down
-  roll = (pins) => {
-    const currentPlayerRolls = this.props.rolls[this.props.currentPlayerIndex];
-    let currentRollIndex = this.props.players[this.props.currentPlayerIndex]
-      .currentRollIndex;
-    currentPlayerRolls[currentRollIndex++] = pins;
-    this.props.saveScore(
-      this.props.players[this.props.currentPlayerIndex].id,
-      this.score()
-    );
-
-    if (this.pinsRemaining() === 10) {
-      this.props.nextPlayer(this.props.currentPlayerIndex);
-    }
-  };
-  //counting score after a roll
-  score = () => {
-    let allScores = [];
-    let score = 0;
-    let frameIndex = 0;
-    const currentPlayerRolls = this.props.rolls[this.props.currentPlayerIndex];
-    const firstRoll = () => currentPlayerRolls[frameIndex];
-    const secondRoll = () => currentPlayerRolls[frameIndex + 1];
-    const thirdRoll = () => currentPlayerRolls[frameIndex + 2];
-
-    const frameScore = () => firstRoll() + secondRoll();
-
-    const spareBonus = () => thirdRoll();
-
-    const strikeBonus = () => secondRoll() + thirdRoll();
-
-    const isStrike = () => firstRoll() === 10;
-
-    const isSpare = () => frameScore() === 10;
-
-    const saveFrame = (allScores, leftBox, rightBox, score, pinsRemaining) => {
-      if (allScores.length < 9) {
-        allScores.push({
-          leftBox,
-          rightBox,
-          totalScore: score,
-          pinsRemaining,
-        });
-      } else {
-        const firstResult = firstRoll() === 10 ? "X" : firstRoll();
-        const secondResult =
-          secondRoll() === 10 ? "X" : isSpare() ? "/" : secondRoll();
-        let thirdResult;
-        if (thirdRoll() === 10) {
-          thirdResult = "X";
-        } else if (firstRoll() === 10 || firstRoll() + secondRoll() === 10) {
-          thirdResult = thirdRoll();
-        } else {
-          thirdResult = "";
-        }
-
-        allScores.push({
-          leftBox: firstResult,
-          rightBox: secondResult,
-          totalScore: score,
-          pinsRemaining,
-          extraBox: thirdResult,
-        });
-      }
-    };
-    // logic of score counting
-    [...Array(10)].forEach(() => {
-      if (isStrike()) {
-        score += 10 + strikeBonus();
-        saveFrame(allScores, "", "X", score, 10);
-        frameIndex++;
-      } else if (isSpare()) {
-        score += 10 + spareBonus();
-        saveFrame(allScores, firstRoll(), "/", score, 10);
-        frameIndex += 2;
-      } else {
-        score += frameScore();
-        const pinsRemaining =
-          secondRoll() !== undefined ? 10 : 10 - firstRoll();
-        saveFrame(allScores, firstRoll(), secondRoll(), score, pinsRemaining);
-        frameIndex += 2;
-      }
-    });
-    return allScores;
-  };
-  checkWinner = () => {
-    const finalScores = this.props.players.map((player) => {
-      if (player.rolls[9].totalScore) {
-        return player.rolls[9].totalScore;
-      }
-      return null;
-    });
-    const winningScore = Math.max.apply(Math, finalScores);
-    if (winningScore) {
-      const winner = this.props.players.filter((player) => {
-        return player.rolls[9].totalScore === winningScore;
-      });
-      return this.props.countingWins(winner[0].id);
-      // } else  {
-      //   alert("Opps it is a draw");
-    }
-  };
-  //reset the game
-  reset = () => {
-    this.props.resetGame();
-  };
   render() {
-    const { players, currentPlayerIndex } = this.props;
-    const finalScores = this.props.players.map((player) => {
+    const {
+      players,
+      currentPlayerIndex,
+      rolls,
+      countingWins,
+      nextPlayer,
+      saveScore,
+    } = this.props;
+    const finalScores = players.map((player) => {
       if (player.rolls[9] && player.rolls[9].totalScore) {
         return player.rolls[9].totalScore;
       }
@@ -139,17 +30,36 @@ class ScoreBoard extends Component {
     return (
       <div className="sb-wrapper">
         <ControlBoard
-          handleRoll={this.roll}
-          handleReset={this.reset}
-          pinsRemaining={players.length > 0 ? this.pinsRemaining() : null}
+          handleRoll={roll}
+          handleReset={this.props.resetGame}
+          pinsRemaining={
+            players.length > 0
+              ? pinsRemaining(score(rolls, currentPlayerIndex))
+              : null
+          }
           currentPlayer={
             players.length > 0 ? players[currentPlayerIndex].playerName : null
           }
         />
         <div className="controls">
-          {this.props.rolls.length > 0
-            ? [...Array(this.pinsRemaining() + 1)].map((frameData, i) => (
-                <button key={i} className="roll" onClick={() => this.roll(i)}>
+          {rolls.length > 0
+            ? [
+                ...Array(pinsRemaining(score(rolls, currentPlayerIndex)) + 1),
+              ].map((frameData, i) => (
+                <button
+                  key={i}
+                  className="roll"
+                  onClick={() =>
+                    roll(
+                      i,
+                      rolls,
+                      currentPlayerIndex,
+                      players,
+                      nextPlayer,
+                      saveScore
+                    )
+                  }
+                >
                   {i}
                 </button>
               ))
@@ -195,13 +105,14 @@ class ScoreBoard extends Component {
             : null}
         </div>
         {finalScores[players.length - 1] ? (
-          <button className="button" onClick={this.checkWinner}>
+          <button
+            className="button"
+            onClick={() => checkWinner(players, countingWins)}
+          >
             Check winner
           </button>
         ) : null}
-        {this.props.rolls[0] && this.props.rolls[0].length > 0 ? null : (
-          <PlayerForm />
-        )}
+        {rolls[0] && rolls[0].length > 0 ? null : <PlayerForm />}
       </div>
     );
   }
