@@ -5,7 +5,8 @@ export function roll(
   currentPlayerIndex,
   players,
   nextPlayer,
-  saveScore
+  saveScore,
+  endGame
 ) {
   const currentPlayerRolls = rolls[currentPlayerIndex];
   let currentRollIndex = players[currentPlayerIndex].currentRollIndex;
@@ -14,6 +15,13 @@ export function roll(
 
   if (pinsRemaining(score(rolls, currentPlayerIndex)) === 10) {
     nextPlayer(currentPlayerIndex);
+  }
+  const lastScore =
+    players[players.length - 1].rolls[9] &&
+    players[players.length - 1].rolls[9].leftBox;
+  console.log("final Scores", lastScore);
+  if (lastScore) {
+    endGame();
   }
 }
 

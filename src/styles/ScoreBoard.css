@@ -165,5 +165,8 @@
   color: white;
   font-family: "Inter";
 }
-.player-board {
+.button:disabled,
+.button[disabled] {
+  background-color: #a7a5a533;
+  color: #f3f3f362;
 }

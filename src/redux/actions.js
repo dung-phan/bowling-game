@@ -3,6 +3,7 @@ export const ADD_PLAYER = "ADD_PLAYER";
 export const SAVE_SCORE = "SAVE_SCORE";
 export const NEXT_PLAYER = "NEXT_PLAYER";
 export const COUNT_WIN = "COUNT_WIN";
+export const GAME_OVER = "GAME_OVER";
 export const RESET_GAME = "RESET_GAME";
 
 export const addNewPlayer = (playerName) => {
@@ -34,6 +35,11 @@ export const countingWins = (playerId) => {
   return {
     type: COUNT_WIN,
     playerId,
+  };
+};
+export const endGame = () => {
+  return {
+    type: GAME_OVER,
   };
 };
 export const resetGame = () => {

@@ -5,6 +5,7 @@ import {
   nextPlayer,
   resetGame,
   countingWins,
+  endGame,
 } from "../redux/actions";
 import ControlBoard from "./ControlBoard";
 import Frame from "./Frame";
@@ -20,13 +21,9 @@ class ScoreBoard extends Component {
       countingWins,
       nextPlayer,
       saveScore,
+      endGame,
     } = this.props;
-    const finalScores = players.map((player) => {
-      if (player.rolls[9] && player.rolls[9].totalScore) {
-        return player.rolls[9].totalScore;
-      }
-      return null;
-    });
+
     return (
       <div className="sb-wrapper">
         <ControlBoard
@@ -56,7 +53,8 @@ class ScoreBoard extends Component {
                       currentPlayerIndex,
                       players,
                       nextPlayer,
-                      saveScore
+                      saveScore,
+                      endGame
                     )
                   }
                 >
@@ -104,8 +102,10 @@ class ScoreBoard extends Component {
               ))
             : null}
         </div>
-        {finalScores[players.length - 1] ? (
+
+        {players.length > 0 ? (
           <button
+            disabled={this.props.gameNotOver}
             className="button"
             onClick={() => checkWinner(players, countingWins)}
           >
@@ -122,11 +122,13 @@ const mapStateToProps = (state) => {
     players: state.players,
     currentPlayerIndex: state.currentPlayerIndex,
     rolls: state.rolls,
+    gameNotOver: state.gameNotOver,
   };
 };
 export default connect(mapStateToProps, {
   saveScore,
   nextPlayer,
+  endGame,
   resetGame,
   countingWins,
 })(ScoreBoard);

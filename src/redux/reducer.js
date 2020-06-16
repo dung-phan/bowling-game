@@ -4,12 +4,14 @@ import {
   NEXT_PLAYER,
   RESET_GAME,
   COUNT_WIN,
+  GAME_OVER,
 } from "./actions";
 
 export const initialState = {
   players: [],
   currentPlayerIndex: 0,
   rolls: [],
+  gameNotOver: true,
 };
 
 export default (state = initialState, action) => {
@@ -46,6 +48,11 @@ export default (state = initialState, action) => {
           currentPlayerIndex: 0,
         };
       }
+    case GAME_OVER:
+      return {
+        ...state,
+        gameNotOver: false,
+      };
 
     case COUNT_WIN:
       return {
