@@ -19,7 +19,6 @@ export function roll(
   const lastScore =
     players[players.length - 1].rolls[9] &&
     players[players.length - 1].rolls[9].leftBox;
-  console.log("final Scores", lastScore);
   if (lastScore) {
     endGame();
   }
@@ -36,6 +35,7 @@ export function pinsRemaining(score) {
   return pinsRemaining;
 }
 //counting score after a roll
+
 export function score(rolls, currentPlayerIndex) {
   let allScores = [];
   let score = 0;

@@ -1,31 +1,28 @@
-import {
-  ADD_PLAYER,
-  SAVE_SCORE,
-  NEXT_PLAYER,
-  RESET_GAME,
-  COUNT_WIN,
-} from "./actions";
+import { ADD_PLAYER } from "./actions";
 import gameReducer, { initialState } from "./reducer";
 describe("Game reducer", () => {
   it("Should return default state", () => {
-    console.log("what initial state", initialState);
     const newState = gameReducer(undefined, {});
-    expect(newState).toEqual({ currentPlayerIndex: 0, players: [], rolls: [] });
+    expect(newState).toEqual(initialState);
   });
-  it("Should return new state if receiving action payload", () => {
-    const newState = gameReducer(undefined, {
-      type: ADD_PLAYER,
-      payload: {
-        id: "Test1",
-        name: "Test",
-      },
-    });
-    expect(newState).toEqual({
-      currentPlayerIndex: 0,
+  it("Should return new state if receiving a new player", () => {
+    expect(
+      gameReducer(initialState, {
+        type: ADD_PLAYER,
+        player: {
+          id: "123XYZ",
+          playerName: "John",
+          rolls: [],
+          currentRollIndex: 0,
+          winningTimes: 0,
+        },
+      })
+    ).toEqual({
+      ...initialState,
       players: [
         {
-          id: "Test1",
-          playerName: "Test",
+          id: "123XYZ",
+          playerName: "John",
           rolls: [],
           currentRollIndex: 0,
           winningTimes: 0,

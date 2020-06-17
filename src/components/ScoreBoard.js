@@ -22,13 +22,14 @@ class ScoreBoard extends Component {
       nextPlayer,
       saveScore,
       endGame,
+      resetGame,
     } = this.props;
 
     return (
       <div className="sb-wrapper">
         <ControlBoard
           handleRoll={roll}
-          handleReset={this.props.resetGame}
+          handleReset={resetGame}
           pinsRemaining={
             players.length > 0
               ? pinsRemaining(score(rolls, currentPlayerIndex))
