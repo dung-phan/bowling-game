@@ -54,5 +54,5 @@ As a player, you can:
 
 ## Improvements
 
-- The app is currently limited to only one or two users
+- Add more tests to helper functions and redux store
 - The app is designed for laptop users only and therefore is not responsive.
